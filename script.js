@@ -11,6 +11,18 @@ const colsrows = [
 	document.querySelectorAll('.b'),  // column 2
 	document.querySelectorAll('.c'),  // column 3
 ];
+const diagonals = [
+	[ // top left to bottom right
+		document.querySelector('.a.one'), 
+		document.querySelector('.b.two'), 
+		document.querySelector('.c.three'),
+	],
+	[ // bottom left to top right
+		document.querySelector('.c.one'), 
+		document.querySelector('.b.two'), 
+		document.querySelector('.a.three'),
+	],
+];
 
 let username = 'nobody'
 let currentTurn = 'none'
@@ -80,16 +92,28 @@ function checkForWinner() {
 			if ( btn.innerHTML === 'O' ) { Os++ };
 		});
 		if ( Xs === 3 || Os === 3 ) {
-			// ADD CODE FOR WHEN IT'S WON
 			if ( Xs === 3 ) { winner = 'X' } else { winner = 'O' }
 			console.log(`Congrats, ${winner}! You won!`)
 			document.querySelectorAll('button.game').forEach(e => {
 				e.disabled = true;
 			});
-		} else {
-
-			// check for diagonals
-			
+			return 0;
+		}
+	});
+	diagonals.forEach(btnArray => {
+		let Xs = 0;
+		let Os = 0;
+		btnArray.forEach(btn => {
+			if ( btn.innerHTML === 'X' ) { Xs++ };
+			if ( btn.innerHTML === 'O' ) { Os++ };
+		});
+		if ( Xs === 3 || Os === 3 ) {
+			if ( Xs === 3 ) { winner = 'X' } else { winner = 'O' }
+			console.log(`Congrats, ${winner}! You won!`)
+			document.querySelectorAll('button.game').forEach(e => {
+				e.disabled = true;
+			});
+			return 0;
 		}
 	});
 	
@@ -98,5 +122,6 @@ function checkForWinner() {
 		document.querySelectorAll('button.game').forEach(e => {
 			e.disabled = true;
 		});
+		return 0;
 	}
 }
