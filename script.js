@@ -126,10 +126,10 @@ function checkForWinner() {
 	
 	
 	if ( turns === 10 & winner === 'nobody' ) {
-		console.log('no winner...')
 		document.querySelectorAll('button.game').forEach(e => {
 			e.disabled = true;
 		});
+		newMessage('server', `It's a tie. <button onclick="newgame();">Play again?</button>`)
 		return 0;
 	}
 }
