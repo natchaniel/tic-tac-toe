@@ -23,9 +23,13 @@ const diagonals = [
 		document.querySelector('.a.three'),
 	],
 ];
+const waysToWin = [
+	colsrows, diagonals
+];
 
 let username = 'nobody'
 let currentTurn = 'none'
+let gametype = 'none'
 let turns = 0
 let winner = 'nobody'
 
@@ -46,7 +50,7 @@ function swapTurns() {
 }
 function newMessage(type, txt, clear) {
 	const msg = document.createElement('li');
-	msg.textContent = txt;
+	if (type === 'server') { msg.innerHTML = txt } else { msg.textContent = txt };
 	switch(type) {
 		case 'server':
 			msg.classList.add('servermsg');
@@ -66,6 +70,9 @@ document.querySelector('#singleplayerForm').addEventListener('submit', e => {
 	e.preventDefault();
 	toggleDisplay();
 
+	header.textContent = 'Tic-Tac-Toe online (playing locally)'
+	gametype = 'local'
+
 	if (currentTurn === 'none') { currentTurn = 'X' }
 	turns++;
 	newMessage('server', `Playing offline. ${currentTurn}'s turn`, true);
@@ -83,39 +90,40 @@ document.querySelectorAll('div#gameBoard button').forEach(btn => {
 		};
 	});
 });
+
+function newgame() {
+	if ( gametype === 'local' ) {
+		document.querySelectorAll('button.game').forEach(e => {
+			e.textContent = '';
+			e.disabled = false;
+			turns = 1;
+			currentTurn = 'X';
+			newMessage('server', `${currentTurn}'s turn`, true);
+			newMessage('server', `Turn ${turns}`, false);
+		});
+	};
+};
+
 function checkForWinner() {
-	colsrows.forEach(btns => {
-		let Xs = 0;
-		let Os = 0;
-		btns.forEach(btn => {
-			if ( btn.innerHTML === 'X' ) { Xs++ };
-			if ( btn.innerHTML === 'O' ) { Os++ };
-		});
-		if ( Xs === 3 || Os === 3 ) {
-			if ( Xs === 3 ) { winner = 'X' } else { winner = 'O' }
-			console.log(`Congrats, ${winner}! You won!`)
-			document.querySelectorAll('button.game').forEach(e => {
-				e.disabled = true;
+	waysToWin.forEach(wayToWin => {
+		wayToWin.forEach(btns => {
+			let Xs = 0;
+			let Os = 0;
+			btns.forEach(btn => {
+				if ( btn.innerHTML === 'X' ) { Xs++ };
+				if ( btn.innerHTML === 'O' ) { Os++ };
 			});
-			return 0;
-		}
-	});
-	diagonals.forEach(btnArray => {
-		let Xs = 0;
-		let Os = 0;
-		btnArray.forEach(btn => {
-			if ( btn.innerHTML === 'X' ) { Xs++ };
-			if ( btn.innerHTML === 'O' ) { Os++ };
+			if ( Xs === 3 || Os === 3 ) {
+				if ( Xs === 3 ) { winner = 'X' } else { winner = 'O' }
+				newMessage('server', `Congrats, ${winner}! You won! <button onclick="newgame();">Play again?</button>`)
+				document.querySelectorAll('button.game').forEach(e => {
+					e.disabled = true;
+				});
+				return 0;
+			}
 		});
-		if ( Xs === 3 || Os === 3 ) {
-			if ( Xs === 3 ) { winner = 'X' } else { winner = 'O' }
-			console.log(`Congrats, ${winner}! You won!`)
-			document.querySelectorAll('button.game').forEach(e => {
-				e.disabled = true;
-			});
-			return 0;
-		}
 	});
+	
 	
 	if ( turns === 10 & winner === 'nobody' ) {
 		console.log('no winner...')
