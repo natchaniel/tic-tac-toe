@@ -72,12 +72,6 @@ document.querySelectorAll('div#gameBoard button').forEach(btn => {
 	});
 });
 function checkForWinner() {
-	if ( turns === 10 ) {
-		console.log('no winner...')
-		document.querySelectorAll('button.game').forEach(e => {
-			e.disabled = true;
-		});
-	}
 	colsrows.forEach(btns => {
 		let Xs = 0;
 		let Os = 0;
@@ -93,7 +87,16 @@ function checkForWinner() {
 				e.disabled = true;
 			});
 		} else {
+
 			// check for diagonals
+			
 		}
 	});
+	
+	if ( turns === 10 & winner === 'nobody' ) {
+		console.log('no winner...')
+		document.querySelectorAll('button.game').forEach(e => {
+			e.disabled = true;
+		});
+	}
 }
