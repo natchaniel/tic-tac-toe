@@ -1,0 +1,25 @@
+* { font-family: 'Roboto', 'Segoe UI', sans-serif; }
+
+#gameBoard { display: inline-grid; grid-template-columns: repeat(3, 100px); grid-auto-rows: 100px;
+					 margin: 0px; }
+/* mobile layout */
+@media screen and ( max-width: 500px ) {
+	#gameBoard { display: grid; }
+	#chat { width: 100% !important; float: left; }
+}
+#gameBoard button { border: none; border-radius: 100%; margin: 5px; font-size: 64px; background-color: #eee;
+									transition: all 0.25s; }
+#gameBoard button:hover { background-color: #d8d8d8; }
+
+
+#chat { position: relative; border: 5px solid black; width: calc(100% - 315px); float: right; height: 290px; 
+			 overflow-y: auto; overflow-x: hidden; }
+#messages { padding: 0px; margin: 0px; list-style-type: none; }
+#messages li { padding: 0.25em; font-size: 14pt; }
+#msgForm { position: absolute; bottom: 0; width: 100%; }
+#msgForm input[type='text'] { width: 100%; }
+.usermsg { background-color: #85e2ff; text-align: right; }
+.othermsg { background-color: #d8d8d8; }
+.servermsg { background-color: #ffd769; text-align: center; }
+
+.hidden { display: none !important; }
